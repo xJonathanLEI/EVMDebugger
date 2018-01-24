@@ -10,6 +10,15 @@ Reverse engineering solutions like [Porosity](https://github.com/comaeio/porosit
 
 Ultimately, contracts are executed in byte-codes. It is thus always possible to debug Ethereum contracts using byte-codes. Yet I've been searching for quite a while and failed to find a debugger that is nice to use (with automated testing, etc.). So I decided to write my own.
 
+## Features
+
+The debugger supports (well, will support) a wide of features including:
+
+- Import contract code from address directly via Etherscan API
+- Setup transaction information with transaction hash via Etherscan API
+- Automated testing for different input values (sender, gas, data, etc.)
+- 
+
 ## Dependency
 
 The EVM project uses the `SHA3` NuGet library for Keccak-256 hashing.
@@ -27,6 +36,10 @@ Issues in this list are to be fixed in a future update. For any issues or bugs o
 - No gas consumption calculations (so never out of gas)
 - External call not supported
 - No step-back support
+
+## Acknowledgement
+
+No. I don't like the Ethereum yellow paper. It's so hard to read (at least for me) that it makes me more confused after reading. The implementation of EVM in this project makes extensive reference to that of [cpp-ethereum](https://github.com/ethereum/cpp-ethereum).
 
 ## Contribution
 

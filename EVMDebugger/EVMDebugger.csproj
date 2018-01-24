@@ -53,6 +53,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -79,6 +82,10 @@
     <ProjectReference Include="..\EVM\EVM.csproj">
       <Project>{6aeca150-cceb-4aec-b34f-f0b8679cca71}</Project>
       <Name>EVM</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\uint256\uint256.csproj">
+      <Project>{d6e7582c-c3c0-44ba-bea1-1d84813a9c6a}</Project>
+      <Name>uint256</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

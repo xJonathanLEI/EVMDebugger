@@ -5,6 +5,15 @@ VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EVMDebugger", "EVMDebugger\EVMDebugger.csproj", "{8165E8BC-B69D-4BAC-A589-7996F2DE75C6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uint256", "uint256\uint256.csproj", "{D6E7582C-C3C0-44BA-BEA1-1D84813A9C6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EVM", "EVM\EVM.csproj", "{6AECA150-CCEB-4AEC-B34F-F0B8679CCA71}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EE5157EB-C129-4DF8-8DD5-04F6E1170C51}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +24,14 @@ Global
 		{8165E8BC-B69D-4BAC-A589-7996F2DE75C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8165E8BC-B69D-4BAC-A589-7996F2DE75C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8165E8BC-B69D-4BAC-A589-7996F2DE75C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6E7582C-C3C0-44BA-BEA1-1D84813A9C6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6E7582C-C3C0-44BA-BEA1-1D84813A9C6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6E7582C-C3C0-44BA-BEA1-1D84813A9C6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6E7582C-C3C0-44BA-BEA1-1D84813A9C6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AECA150-CCEB-4AEC-B34F-F0B8679CCA71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AECA150-CCEB-4AEC-B34F-F0B8679CCA71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AECA150-CCEB-4AEC-B34F-F0B8679CCA71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AECA150-CCEB-4AEC-B34F-F0B8679CCA71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

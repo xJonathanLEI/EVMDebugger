@@ -45,12 +45,31 @@ namespace Uint256
         {
             /**
              * We assume they mean to use unsigned-int.
-             * Say, when you call new uint(1), you really mean [0x00, ..., 0x01], not some freaky huge numbers.
+             * Say, when you write uint256 a = 1, you really mean [0x00, ..., 0x01], not some freaky huge numbers.
             **/
             byte[] bytes = BitConverter.GetBytes(sint);
             // Little endian used by BitConverter
             Array.Reverse(bytes);
             return new uint256(bytes);
+        }
+
+        public static implicit operator uint256(long slong)
+        {
+            byte[] bytes = BitConverter.GetBytes(slong);
+            Array.Reverse(bytes);
+            return new uint256(bytes);
+        }
+
+        public static implicit operator uint256(string hex)
+        {
+            if (hex.StartsWith("0x"))
+                hex = hex.Remove(0, 2);
+            if (hex.Length % 2 != 0)
+                hex = "0" + hex;
+            byte[] ret = new byte[hex.Length / 2];
+            for (int i = 0; i < ret.Length; i++)
+                ret[i] = byte.Parse(hex.Substring(i * 2, 2), System.Globalization.NumberStyles.HexNumber);
+            return new uint256(ret);
         }
 
         public static bool operator ==(uint256 leftOperand, uint256 rightOperand)

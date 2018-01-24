@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using EVM:
+using EVM.Structures;
 using Uint256;
 
 namespace EVMDebugger
@@ -20,7 +22,7 @@ namespace EVMDebugger
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            EVMInterpreter evm = new EVMInterpreter(new byte[] { 0x60, 0x60 });
         }
     }
 }

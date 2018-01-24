@@ -17,15 +17,22 @@ The debugger supports (well, will support) a wide of features including:
 - Import contract code from address directly via Etherscan API
 - Setup transaction information with transaction hash via Etherscan API
 - Automated testing for different input values (sender, gas, data, etc.)
-- 
 
 ## Dependency
 
 The EVM project uses the `SHA3` NuGet library for Keccak-256 hashing.
 
+## Projects
+
+There are three projects in the solution:
+
+- **uint256**: A portable C# implementation of unsigned 256-bit integer used by EVM and EVMDebugger
+- **EVM**: A portable C# implementation of EVM for debugging purpose.
+- **EVMDebugger**: GUI for the debugger
+
 ## Environment
 
-This project is originally developed in Windows 10 Pro 16299.192 with Microsoft Visual Studio Community 2017 Version 15.5.3.
+This project is originally developed in `Windows 10 Pro 16299.192` with `Microsoft Visual Studio Community 2017 Version 15.5.3`.
 
 In the future, the project may be migrated to be cross platform.
 

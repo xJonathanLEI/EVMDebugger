@@ -43,12 +43,14 @@ namespace EVM
         private Dictionary<uint256, uint256> m_storage;
         private byte[] m_return;
 
+        // Read-only variables
         public byte[] byteCode { get { return m_byteCode; } }
         public int pc { get { return m_pc; } }
         public List<byte> memory { get { return m_memory; } }
         public List<uint256> stack { get { return m_stack; } }
         public Dictionary<uint256, uint256> storage { get { return m_storage; } }
         public byte[] returnData { get { return m_return; } }
+
         public Transaction transaction = new Transaction() // Default transaction
         {
             data = new byte[0], // No data sent
@@ -58,8 +60,13 @@ namespace EVM
             sender = "71d61BBe11f4e11CFF69e56B967Aa1C1a586f778", // Fake account
             to = "5d1B26d762b1973B8B7C2bFb196Ba2ED969dAF18" // Fake contract account
         };
+        public Externalities ext = new Externalities()
+        {
+            timestamp = 1516793709,
+            blockheight = 4963838
+        };
 
-        public EVM(byte[] byteCode)
+        public EVMInterpreter(byte[] byteCode)
         {
             m_byteCode = byteCode;
             m_pc = 0;
@@ -68,7 +75,7 @@ namespace EVM
             m_storage = new Dictionary<uint256, uint256>();
         }
 
-        public EVM(byte[] byteCode, Dictionary<uint256, uint256> storage)
+        public EVMInterpreter(byte[] byteCode, Dictionary<uint256, uint256> storage)
         {
             m_byteCode = byteCode;
             m_pc = 0;

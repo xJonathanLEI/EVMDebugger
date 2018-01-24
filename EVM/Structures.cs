@@ -13,5 +13,11 @@ namespace EVM
             public uint256 gasPrice { get; set; }
             public byte[] data { get; set; }
         }
+
+        public struct Externalities
+        {
+            public uint256 blockheight { get; set; }
+            public uint256 timestamp { get; set; }
+        }
     }
 }

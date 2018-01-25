@@ -37,7 +37,7 @@ namespace EVM
                     str.Append(bytes[i].ToString("x2"));
                 }
             }
-            return str.ToString();
+            return str.Length == 0 ? "00" : str.ToString();
         }
 
         public static string ToHex(this int i, bool leadingZeros = true)

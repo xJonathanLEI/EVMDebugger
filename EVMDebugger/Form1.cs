@@ -22,10 +22,17 @@ namespace EVMDebugger
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            string bytecode = "60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a72305820cd0036515f7f933f1f086af1cff457829d44f21ab535e1049fdf85800a3db9570029";
+            uint256 a = 1024;
+            uint256 b = 2;
+            uint256 c = a / b;
+            int d = (int)c.ToUInt32();
+
+            EVM.DataQuery.EtherscanDataGateway edg = new EVM.DataQuery.EtherscanDataGateway();
+            byte[] bytecode = await edg.getCodeAt("0x5d1B26d762b1973B8B7C2bFb196Ba2ED969dAF18");
 
             // PUSH1 0x05, PUSH1 0x04, RETURN
-            EVMInterpreter evm = new EVMInterpreter(Utility.parseHexString(bytecode));
+            EVMInterpreter evm = new EVMInterpreter(bytecode);
+            evm.transaction.data = Utility.parseHexString("0x6ffcc719000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000ed6fa3c7");
 
             ShowEVMStatus(evm);
 
@@ -42,6 +49,14 @@ namespace EVMDebugger
 
         private void ShowEVMStatus(EVMInterpreter evm)
         {
+            // PC
+            int instructAdd = EVM.EVMInterpreter.instructionInfos[(EVMInterpreter.Instruction)evm.byteCode[evm.pc]][0];
+            StringBuilder pcPar = new StringBuilder();
+            if (instructAdd > 0)
+                pcPar.Append("\t0x");
+            for (int i = 0; i < instructAdd; i ++)
+                pcPar.Append(evm.byteCode[evm.pc + i + 1].ToString("x2"));
+
             // Stack
             StringBuilder stack = new StringBuilder();
             stack.Append("[");
@@ -62,7 +77,7 @@ namespace EVMDebugger
                 memory.Append(string.Format("0x{0}: \t{1}\r\n", (i * 16).ToHex(), memorySlot.ToString()));
             }
 
-            Console.WriteLine(string.Format("==========EVM Status==========\r\nPC:\t0x{0}\t{1}\r\nStack:\t{2}\r\nMemory:\r\n{3}", evm.pc.ToHex(false), ((EVM.EVMInterpreter.Instruction)evm.byteCode[evm.pc]).ToString(), stack.ToString(), memory.ToString()));
+            Console.WriteLine(string.Format("==========EVM Status==========\r\nPC:\t0x{0}\t{1}\r\nStack:\t{2}\r\nMemory:\r\n{3}", evm.pc.ToHex(false), ((EVM.EVMInterpreter.Instruction)evm.byteCode[evm.pc]).ToString() + pcPar.ToString(), stack.ToString(), memory.ToString()));
         }
     }
 }

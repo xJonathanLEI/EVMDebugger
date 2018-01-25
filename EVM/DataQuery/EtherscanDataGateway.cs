@@ -56,7 +56,7 @@ namespace EVM.DataQuery
         public override async Task<byte[]> getCodeAt(uint256 address)
         {
             dynamic res = JObject.Parse(await hc.GetStringAsync(string.Format(GET_CODE_AT_API, "0x" + ((uint256)address).ToString(false), "latest")));
-            return Utility.parseHexString(res.result);
+            return Utility.parseHexString((string)res.result);
         }
 
         public override async Task<uint256> getBlockHashByHeight(int blockHeight)

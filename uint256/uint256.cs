@@ -238,6 +238,8 @@ namespace Uint256
             for (int i = 0; i < leftOperand.bytes.Length; i++)
                 if (leftOperand.bytes[i] < rightOperand.bytes[i])
                     return true;
+                else if(leftOperand.bytes[i] > rightOperand.bytes[i])
+                    return false;
             return false;
         }
 
@@ -246,6 +248,8 @@ namespace Uint256
             for (int i = 0; i < leftOperand.bytes.Length; i++)
                 if (leftOperand.bytes[i] > rightOperand.bytes[i])
                     return true;
+                else if (leftOperand.bytes[i] < rightOperand.bytes[i])
+                    return false;
             return false;
         }
 

@@ -413,7 +413,13 @@ namespace EVM
                     break;
 
                 case (Instruction.CALLDATALOAD):
-                    throw new EVMInstructionNotYetSupported();
+                    byte[] cdloadBytes = new byte[32];
+                    int cdloadOffset = (int)m_stack[0].ToUInt32();
+                    for (int i = 0; i < 32; i++)
+                        cdloadBytes[i] = cdloadOffset + i < transaction.data.Length ? transaction.data[cdloadOffset + i] : (byte)0;
+                    m_stack[0] = new uint256(cdloadBytes);
+                    m_pc++;
+                    break;
 
                 case (Instruction.CALLDATASIZE):
                     m_stack.Insert(0, transaction.data.Length);
@@ -569,7 +575,7 @@ namespace EVM
                 case (Instruction.SWAP14):
                 case (Instruction.SWAP15):
                 case (Instruction.SWAP16):
-                    int swapN = (int)m_op - (int)Instruction.DUP1 + 1;
+                    int swapN = (int)m_op - (int)Instruction.SWAP1 + 1;
                     uint256 swapTemp = m_stack[0];
                     m_stack[0] = m_stack[swapN];
                     m_stack[swapN] = swapTemp;

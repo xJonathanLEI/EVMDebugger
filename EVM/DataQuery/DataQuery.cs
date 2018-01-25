@@ -10,6 +10,7 @@
 
 using Uint256;
 using EVM.Structures;
+using System.Threading.Tasks;
 
 namespace EVM.DataQuery
 {
@@ -23,7 +24,7 @@ namespace EVM.DataQuery
         /// </summary>
         /// <param name="txHash">Transaction hash</param>
         /// <returns>The transaction if it exists, or null otherwise.</returns>
-        public abstract Transaction getTransactionByHash(uint256 txHash);
+        public abstract Task<Transaction> getTransactionByHash(uint256 txHash);
 
         /// <summary>
         /// Get contract storage value
@@ -32,7 +33,7 @@ namespace EVM.DataQuery
         /// <param name="index">Storage index</param>
         /// <param name="atBlock">Block height</param>
         /// <returns>Storage value</returns>
-        public abstract uint256 getStorageAt(uint256 address, uint256 index, int atBlock);
+        public abstract Task<uint256> getStorageAt(uint256 address, uint256 index, int atBlock);
 
         /// <summary>
         /// Get contract storage value
@@ -41,13 +42,13 @@ namespace EVM.DataQuery
         /// <param name="index">Storage index</param>
         /// <param name="tag">Search tag</param>
         /// <returns>Storage value</returns>
-        public abstract uint256 getStorageAt(uint256 address, uint256 index, string tag);
+        public abstract Task<uint256> getStorageAt(uint256 address, uint256 index, string tag);
 
         /// <summary>
         /// Get block hash by block height
         /// </summary>
         /// <param name="blockHeight">Block height</param>
         /// <returns>Block hash</returns>
-        public abstract uint256 getBlockHashByHeight(int blockHeight);
+        public abstract Task<uint256> getBlockHashByHeight(int blockHeight);
     }
 }

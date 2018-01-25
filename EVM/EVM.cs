@@ -4,9 +4,6 @@
  * Github: https://github.com/xJonathanLEI
  * Created: Jan 2018
  * Last Updated: Jan 2018
- * Dependency:
- * - Nuget package: SHA3 (v0.9.2 used)
- * - - Installation: Install-Package SHA3
  * Introduction:
  * - This is an implementation of Ethereum Virtual Machine in C#
  * - Gas is ignored in this version. OutofGas never happens

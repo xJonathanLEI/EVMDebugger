@@ -22,6 +22,10 @@ namespace EVMDebugger
 
         private async void button1_Click(object sender, EventArgs e)
         {
+            EVM.DataQuery.EtherscanDataGateway edg = new EVM.DataQuery.EtherscanDataGateway();
+            uint256 u = await edg.getBlockHashByHeight(4968586);
+
+            return;
             string strBase = "00000000000000000000000015ab2321d7e83d00c015048b567f4f6aadc1b022000000000000000000000000000000000000000000000000000000000000000";
             for (int i = 0; i < 6; i ++)
             {

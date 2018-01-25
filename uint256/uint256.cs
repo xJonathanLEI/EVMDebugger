@@ -18,18 +18,20 @@ namespace Uint256
     {
         private readonly byte[] m_bytes;
 
+        private const int VALUE_SIZE = 32;
+
         public byte[] bytes { get { return m_bytes; } }
 
         public uint256()
         {
-            m_bytes = new byte[32];
+            m_bytes = new byte[VALUE_SIZE];
         }
 
         public uint256(byte[] bytes)
         {
-            if (bytes.Length > 32)
+            if (bytes.Length > VALUE_SIZE)
                 throw new Uint256ConstructorOverflow();
-            m_bytes = bytes.LeftPadTo(32);
+            m_bytes = bytes.LeftPadTo(VALUE_SIZE);
         }
 
         public uint256 exp(uint256 exponent)
@@ -38,6 +40,26 @@ namespace Uint256
             for(uint256 i = 0; i < exponent; i ++)
                 ret *= this;
             return ret;
+        }
+
+        /// <summary>
+        /// Express the uint256 value in hex.
+        /// The length of the string will ALWAYS be an integral multiple of 2.
+        /// </summary>
+        /// <param name="leadingZeros">Whether the leading zero BYTES are displayed</param>
+        /// <returns>The value in hex</returns>
+        public string ToString(bool leadingZeros)
+        {
+        }
+
+        /// <summary>
+        /// Express the uint256 value in hex, with no leading zeros.
+        /// The string returned will never start with a zero, unless the whole value itself is zero.
+        /// </summary>
+        /// <returns>The value in hex</returns>
+        public string ToStringMinimal()
+        {
+
         }
 
         // Implicit conversion from int to uint256
@@ -74,7 +96,7 @@ namespace Uint256
 
         public static bool operator ==(uint256 leftOperand, uint256 rightOperand)
         {
-            for (int i = 0; i < 32; i++)
+            for (int i = 0; i < VALUE_SIZE; i++)
                 if (leftOperand.bytes[i] != rightOperand.bytes[i])
                     return false;
             return true;
@@ -82,7 +104,7 @@ namespace Uint256
 
         public static bool operator !=(uint256 leftOperand, uint256 rightOperand)
         {
-            for (int i = 0; i < 32; i++)
+            for (int i = 0; i < VALUE_SIZE; i++)
                 if (leftOperand.bytes[i] == rightOperand.bytes[i])
                     return false;
             return true;

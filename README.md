@@ -20,7 +20,12 @@ The debugger supports (well, will support) a wide of features including:
 
 ## Dependency
 
-The EVM project uses the `SHA3` NuGet library for Keccak-256 hashing.
+The EVM project uses the following NuGet libraries:
+
+- **SHA3**: for Keccak-256 hashing.
+- **Newtonsoft.Json**: for JSON serialization and deserialization.
+
+Please note that uint256 has no dependencies and is thus directly portable.
 
 ## Projects
 

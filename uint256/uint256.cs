@@ -186,13 +186,25 @@ namespace Uint256
         public static uint256 operator /(uint256 leftOperand, uint256 rightOperand)
         {
             if (rightOperand == 0) throw new Uint256Division0();
-            uint256 ret = 0;
-            while (leftOperand >= rightOperand)
+            if (leftOperand < rightOperand) return 0;
+            int toShift = leftOperand.bytes.mostSignificantOne() - rightOperand.bytes.mostSignificantOne();
+            if (toShift > 0)
+                rightOperand <<= toShift;
+            uint256 result = 0;
+            while (true)
             {
-                leftOperand -= rightOperand;
-                ret++;
+                if (leftOperand >= rightOperand)
+                {
+                    leftOperand = leftOperand - rightOperand;
+                    result += 1;
+                }
+                if (toShift <= 0)
+                    break;
+                toShift--;
+                rightOperand >>= 1;
+                result <<= 1;
             }
-            return ret;
+            return result;
         }
 
         public static uint256 operator %(uint256 leftOperand, uint256 rightOperand)

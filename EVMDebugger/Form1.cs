@@ -22,11 +22,6 @@ namespace EVMDebugger
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            uint256 a = 1024;
-            uint256 b = 2;
-            uint256 c = a / b;
-            int d = (int)c.ToUInt32();
-
             EVM.DataQuery.EtherscanDataGateway edg = new EVM.DataQuery.EtherscanDataGateway();
             byte[] bytecode = await edg.getCodeAt("0x5d1B26d762b1973B8B7C2bFb196Ba2ED969dAF18");
 

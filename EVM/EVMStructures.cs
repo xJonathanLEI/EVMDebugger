@@ -2,7 +2,7 @@
 {
     public partial class EVMInterpreter
     {
-        enum Instruction
+        public enum Instruction
         {
             STOP = 0x00,        //< halts execution
             ADD,                //< addition operation

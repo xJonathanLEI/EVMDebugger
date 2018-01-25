@@ -40,11 +40,11 @@ namespace EVM
             return str.ToString();
         }
 
-        public static string ToHex(this int i)
+        public static string ToHex(this int i, bool leadingZeros = true)
         {
             byte[] bytes = BitConverter.GetBytes(i);
             Array.Reverse(bytes);
-            return bytes.ToString(true);
+            return bytes.ToString(leadingZeros);
         }
     }
 }

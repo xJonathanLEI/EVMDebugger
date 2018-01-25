@@ -76,7 +76,7 @@ namespace Uint256
                     str.Append(bytes[i].ToString("x2"));
                 }
             }
-            return str.ToString();
+            return str.Length == 0 ? "00" : str.ToString();
         }
 
         /// <summary>

@@ -45,6 +45,13 @@ namespace EVM.DataQuery
         public abstract Task<uint256> getStorageAt(uint256 address, uint256 index, string tag);
 
         /// <summary>
+        /// Get contract code at address
+        /// </summary>
+        /// <param name="address">Contract address</param>
+        /// <returns>Contract bytecode</returns>
+        public abstract Task<byte[]> getCodeAt(uint256 address);
+
+        /// <summary>
         /// Get block hash by block height
         /// </summary>
         /// <param name="blockHeight">Block height</param>

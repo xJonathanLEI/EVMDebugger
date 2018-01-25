@@ -22,16 +22,14 @@ namespace EVMDebugger
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            uint256 a = 4;
-            uint256 b = 5;
-            uint256 c = a + b;
+            string bytecode = "60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a72305820cd0036515f7f933f1f086af1cff457829d44f21ab535e1049fdf85800a3db9570029";
 
             // PUSH1 0x05, PUSH1 0x04, RETURN
-            EVMInterpreter evm = new EVMInterpreter(new byte[] { 0x60, 0x05, 0x60, 0x04, 0xf3 });
+            EVMInterpreter evm = new EVMInterpreter(Utility.parseHexString(bytecode));
 
             ShowEVMStatus(evm);
 
-            while (evm.executeOnce())
+            while (await evm.executeOnce())
                 ShowEVMStatus(evm);
 
             ShowEVMStatus(evm);
@@ -56,15 +54,15 @@ namespace EVMDebugger
                 throw new Exception("EVM memory size error");
 
             StringBuilder memory = new StringBuilder();
-            for (int i = 0; i < evm.memory.Count / 32; i ++)
+            for (int i = 0; i < evm.memory.Count / 16; i ++)
             {
                 StringBuilder memorySlot = new StringBuilder();
-                for (int offset = 0; offset < 32; offset++)
-                    memorySlot.Append(evm.memory[i + offset].ToString("x2") + (offset == 31 ? "" : " "));
-                memory.Append(string.Format("0x{0}: \t{1}\r\n", i.ToHex(), memorySlot.ToString()));
+                for (int offset = 0; offset < 16; offset++)
+                    memorySlot.Append(evm.memory[i * 16 + offset].ToString("x2") + (offset == 15 ? "" : " "));
+                memory.Append(string.Format("0x{0}: \t{1}\r\n", (i * 16).ToHex(), memorySlot.ToString()));
             }
 
-            Console.WriteLine(string.Format("==========EVM Status==========\r\nPC:\t{0}\r\nStack:\t{1}\r\nMemory:\r\n{2}", evm.pc, stack.ToString(), memory.ToString()));
+            Console.WriteLine(string.Format("==========EVM Status==========\r\nPC:\t0x{0}\t{1}\r\nStack:\t{2}\r\nMemory:\r\n{3}", evm.pc.ToHex(false), ((EVM.EVMInterpreter.Instruction)evm.byteCode[evm.pc]).ToString(), stack.ToString(), memory.ToString()));
         }
     }
 }

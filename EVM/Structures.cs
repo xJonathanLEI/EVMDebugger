@@ -1,4 +1,5 @@
-﻿using Uint256;
+﻿using System.Collections.Generic;
+using Uint256;
 
 namespace EVM
 {
@@ -18,6 +19,15 @@ namespace EVM
         {
             public uint256 blockheight { get; set; }
             public uint256 timestamp { get; set; }
+            public uint256 coinbase { get; set; }
+            public uint256 difficulty { get; set; }
+            public uint256 gaslimit { get; set; }
+        }
+
+        public struct EVMLog
+        {
+            public List<uint256> topics;
+            public byte[] data;
         }
     }
 }

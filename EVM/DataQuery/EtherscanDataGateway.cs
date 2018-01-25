@@ -24,7 +24,7 @@ namespace EVM.DataQuery
         private HttpClient hc = new HttpClient();
 
         private const string BLOCK_INFO_API = "https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag={0}&boolean=true";
-        private const string GET_CODE_API = "https://api.etherscan.io/api?module=proxy&action=eth_getCode&address={0}&tag={1}";
+        private const string GET_CODE_AT_API = "https://api.etherscan.io/api?module=proxy&action=eth_getCode&address={0}&tag={1}";
         private const string GET_STORAGE_AT_API = "https://api.etherscan.io/api?module=proxy&action=eth_getStorageAt&address={0}&position={1}&tag={2}";
         private const string GET_TRANSACTION_BY_HASH_API = "https://api.etherscan.io/api?module=proxy&action=eth_getTransactionByHash&txhash={0}";
 
@@ -51,6 +51,12 @@ namespace EVM.DataQuery
         {
             dynamic res = JObject.Parse(await hc.GetStringAsync(string.Format(GET_STORAGE_AT_API, "0x" + ((uint256)address).ToString(false), "0x" + index.ToString(true), tag)));
             return (string)res.result;
+        }
+
+        public override async Task<byte[]> getCodeAt(uint256 address)
+        {
+            dynamic res = JObject.Parse(await hc.GetStringAsync(string.Format(GET_CODE_AT_API, "0x" + ((uint256)address).ToString(false), "latest")));
+            return Utility.parseHexString(res.result);
         }
 
         public override async Task<uint256> getBlockHashByHeight(int blockHeight)

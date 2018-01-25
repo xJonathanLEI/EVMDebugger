@@ -10,6 +10,7 @@
 **/
 
 using System;
+using System.Text;
 using Uint256.Exceptions;
 
 namespace Uint256
@@ -50,6 +51,22 @@ namespace Uint256
         /// <returns>The value in hex</returns>
         public string ToString(bool leadingZeros)
         {
+            StringBuilder str = new StringBuilder();
+            bool nonZeroMet = false;
+            for (int i = 0; i < VALUE_SIZE; i++)
+            {
+                if (leadingZeros)
+                    str.Append(bytes[i].ToString("x2"));
+                else
+                {
+                    if (bytes[i] != 0x00)
+                        nonZeroMet = true;
+                    else if (!nonZeroMet)
+                        continue;
+                    str.Append(bytes[i].ToString("x2"));
+                }
+            }
+            return str.ToString();
         }
 
         /// <summary>
@@ -59,7 +76,22 @@ namespace Uint256
         /// <returns>The value in hex</returns>
         public string ToStringMinimal()
         {
-
+            StringBuilder str = new StringBuilder();
+            bool nonZeroMet = false;
+            bool anyByteAppended = false;
+            for (int i = 0; i < VALUE_SIZE; i++)
+            {
+                if (bytes[i] != 0x00)
+                    nonZeroMet = true;
+                else if (!nonZeroMet)
+                    continue;
+                if (anyByteAppended)
+                    str.Append(bytes[i].ToString("x2"));
+                else
+                    str.Append(bytes[i].ToString("x"));
+                anyByteAppended = true;
+            }
+            return str.Length == 0 ? "0" : str.ToString();
         }
 
         // Implicit conversion from int to uint256

@@ -20,6 +20,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EVM.Exceptions;
 using EVM.Structures;
+using EVM.DataQuery;
 using Uint256;
 
 namespace EVM
@@ -42,6 +43,8 @@ namespace EVM
          **/
         private Dictionary<uint256, uint256> m_storage;
         private byte[] m_return;
+
+        private SHA3.SHA3Managed keccak = new SHA3.SHA3Managed(256);
 
         // Read-only variables
         public byte[] byteCode { get { return m_byteCode; } }

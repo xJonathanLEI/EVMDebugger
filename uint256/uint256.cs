@@ -43,6 +43,16 @@ namespace Uint256
             return ret;
         }
 
+        public uint ToUInt32(bool ignoreOverflow = false)
+        {
+            if (!ignoreOverflow && this > 0xffffffff)
+                throw new Uint256ConversionOverflow();
+            byte[] bys = new byte[sizeof(uint)];
+            for (int i = 0; i < bys.Length; i ++)
+                bys[i] = bytes[VALUE_SIZE - i - 1];
+            return BitConverter.ToUInt32(bys, 0);
+        }
+
         /// <summary>
         /// Express the uint256 value in hex.
         /// The length of the string will ALWAYS be an integral multiple of 2.
@@ -136,17 +146,14 @@ namespace Uint256
 
         public static bool operator !=(uint256 leftOperand, uint256 rightOperand)
         {
-            for (int i = 0; i < VALUE_SIZE; i++)
-                if (leftOperand.bytes[i] == rightOperand.bytes[i])
-                    return false;
-            return true;
+            return !(leftOperand == rightOperand);
         }
 
         public static uint256 operator +(uint256 leftOperand, uint256 rightOperand)
         {
             uint256 carry = leftOperand & rightOperand;
             uint256 result = leftOperand ^ rightOperand;
-            while (carry == 0)
+            while (carry != 0)
             {
                 uint256 shiftedCarry = carry << 1;
                 carry = result & shiftedCarry;
@@ -159,7 +166,7 @@ namespace Uint256
         {
             uint256 carry = (!leftOperand) & rightOperand;
             uint256 result = leftOperand ^ rightOperand;
-            while (carry == 0)
+            while (carry != 0)
             {
                 uint256 shiftedCarry = carry << 1;
                 carry = (!result) & shiftedCarry;

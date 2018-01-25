@@ -1,9 +1,7 @@
 ﻿using System;
 
-namespace EVM
+namespace EVM.Exceptions
 {
-    namespace Exceptions
-    {
-
-    }
+    public class EVMNoInstruction : Exception { }
+    public class EVMInstructionNotYetSupported : Exception { }
 }

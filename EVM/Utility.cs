@@ -19,5 +19,32 @@ namespace EVM
                 ret[i] = byte.Parse(hex.Substring(i * 2, 2), System.Globalization.NumberStyles.HexNumber);
             return ret;
         }
+
+        public static string ToString(this byte[] bytes, bool leadingZeros)
+        {
+            StringBuilder str = new StringBuilder();
+            bool nonZeroMet = false;
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                if (leadingZeros)
+                    str.Append(bytes[i].ToString("x2"));
+                else
+                {
+                    if (bytes[i] != 0x00)
+                        nonZeroMet = true;
+                    else if (!nonZeroMet)
+                        continue;
+                    str.Append(bytes[i].ToString("x2"));
+                }
+            }
+            return str.ToString();
+        }
+
+        public static string ToHex(this int i)
+        {
+            byte[] bytes = BitConverter.GetBytes(i);
+            Array.Reverse(bytes);
+            return bytes.ToString(true);
+        }
     }
 }

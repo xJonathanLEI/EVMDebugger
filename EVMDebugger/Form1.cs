@@ -22,23 +22,49 @@ namespace EVMDebugger
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            EVM.DataQuery.EtherscanDataGateway edg = new EVM.DataQuery.EtherscanDataGateway();
-            uint256 u = await edg.getBlockHashByHeight(4968586);
+            uint256 a = 4;
+            uint256 b = 5;
+            uint256 c = a + b;
 
-            return;
-            string strBase = "00000000000000000000000015ab2321d7e83d00c015048b567f4f6aadc1b022000000000000000000000000000000000000000000000000000000000000000";
-            for (int i = 0; i < 6; i ++)
+            // PUSH1 0x05, PUSH1 0x04, RETURN
+            EVMInterpreter evm = new EVMInterpreter(new byte[] { 0x60, 0x05, 0x60, 0x04, 0xf3 });
+
+            ShowEVMStatus(evm);
+
+            while (evm.executeOnce())
+                ShowEVMStatus(evm);
+
+            ShowEVMStatus(evm);
+
+            StringBuilder returnStr = new StringBuilder();
+            for (int i = 0; i < evm.returnData.Length; i++)
+                returnStr.Append(evm.returnData[i].ToString("x2") + (i == evm.returnData.Length - 1 ? "" : ", "));
+            Console.WriteLine(string.Format("Return data: [" + returnStr.ToString() + "]"));
+        }
+
+        private void ShowEVMStatus(EVMInterpreter evm)
+        {
+            // Stack
+            StringBuilder stack = new StringBuilder();
+            stack.Append("[");
+            for (int i = 0; i < evm.stack.Count; i++)
+                stack.Append(evm.stack[i].ToString(false) + (i == evm.stack.Count - 1 ? "" : ", "));
+            stack.Append("]");
+
+            // Memory
+            if (evm.memory.Count % 32 != 0)
+                throw new Exception("EVM memory size error");
+
+            StringBuilder memory = new StringBuilder();
+            for (int i = 0; i < evm.memory.Count / 32; i ++)
             {
-                SHA3.SHA3Managed sha3 = new SHA3.SHA3Managed(256);
-                byte[] hash = sha3.ComputeHash(Utility.parseHexString(strBase + i.ToString()));
-                string ori = strBase + i.ToString();
-                string h = "";
-                foreach (byte b in hash)
-                    h += b.ToString("x2");
-                string url = "https://api.etherscan.io/api?module=proxy&action=eth_getStorageAt&address=0xD850942eF8811f2A866692A623011bDE52a462C1&position=0x" + h + "&tag=latest";
-                System.Net.Http.HttpClient hc = new System.Net.Http.HttpClient();
-                Console.WriteLine(string.Format("{0}:\r\n{1}\r\n{2}\r\n{3}\r\n\r\n", ori, h, url, await hc.GetStringAsync(url)));
+                StringBuilder memorySlot = new StringBuilder();
+                for (int offset = 0; offset < 32; offset++)
+                    memorySlot.Append(evm.memory[i + offset].ToString("x2") + (offset == 31 ? "" : " "));
+                memory.Append(string.Format("0x{0}: \t{1}\r\n", i.ToHex(), memorySlot.ToString()));
             }
+
+            Console.WriteLine(string.Format("==========EVM Status==========\r\nPC:\t{0}\r\nStack:\t{1}\r\nMemory:\r\n{2}", evm.pc, stack.ToString(), memory.ToString()));
         }
     }
 }

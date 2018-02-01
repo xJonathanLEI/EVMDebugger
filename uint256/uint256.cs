@@ -177,10 +177,19 @@ namespace Uint256
 
         public static uint256 operator *(uint256 leftOperand, uint256 rightOperand)
         {
-            uint256 ret = 0;
-            for (uint256 i = 0; i < rightOperand; i++)
-                ret += leftOperand;
-            return ret;
+            uint256 sum = 0;
+            for (int i = 0; i < rightOperand.bytes.Length; i++)
+            {
+                byte currentByte = rightOperand.bytes[rightOperand.bytes.Length - i - 1];
+                byte filterByte = 0b00000001;
+                for (int j = 0; j < 8; j++)
+                {
+                    if (j != 0) filterByte <<= 1;
+                    if ((filterByte & currentByte) != 0)
+                        sum += (leftOperand << (i * 8 + j));
+                }
+            }
+            return sum;
         }
 
         public static uint256 operator /(uint256 leftOperand, uint256 rightOperand)
@@ -210,9 +219,7 @@ namespace Uint256
         public static uint256 operator %(uint256 leftOperand, uint256 rightOperand)
         {
             if (rightOperand == 0) throw new Uint256Division0();
-            while (leftOperand >= rightOperand)
-                leftOperand -= rightOperand;
-            return leftOperand;
+            return leftOperand - leftOperand / rightOperand * rightOperand;
         }
 
         public static uint256 operator <<(uint256 leftOperand, int bits)

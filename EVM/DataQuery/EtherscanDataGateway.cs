@@ -37,7 +37,7 @@ namespace EVM.DataQuery
                 to = (string)res.result.to,
                 startGas = (string)res.result.gas,
                 gasPrice = (string)res.result.gasPrice,
-                data = Utility.parseHexString(res.result.input),
+                data = Utility.parseHexString((string)res.result.input),
                 value = (string)res.result.value
             };
         }

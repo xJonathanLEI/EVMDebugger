@@ -88,36 +88,39 @@ namespace Uint256
 
         public static byte[] LEFTSHIFT(this byte[] leftOperand, int bits)
         {
+            byte[] clone = new byte[leftOperand.Length];
+            leftOperand.CopyTo(clone, 0);
             for (int i = 0; i < bits; i++)
             {
                 bool overflow = false;
-                for (int j = leftOperand.Length - 1; j >= 0; j--)
+                for (int j = clone.Length - 1; j >= 0; j--)
                 {
-                    byte oriByte = leftOperand[j];
-                    leftOperand[j] = (byte)(leftOperand[j] << 1);
+                    byte oriByte = clone[j];
+                    clone[j] = (byte)(clone[j] << 1);
                     if (overflow)
-                        leftOperand[j] += 0b1;
+                        clone[j] += 0b1;
                     overflow = oriByte > 0b01111111;
                 }
             }
-            return leftOperand;
+            return clone;
         }
 
         public static byte[] RIGHTSHIFT(this byte[] leftOperand, int bits)
         {
+            byte[] clone = new byte[leftOperand.Length];
             for (int i = 0; i < bits; i++)
             {
                 bool overflow = false;
-                for (int j = 0; j < leftOperand.Length; j++)
+                for (int j = 0; j < clone.Length; j++)
                 {
-                    byte oriByte = leftOperand[j];
-                    leftOperand[j] = (byte)(leftOperand[j] >> 1);
+                    byte oriByte = clone[j];
+                    clone[j] = (byte)(clone[j] >> 1);
                     if (overflow)
-                        leftOperand[j] += 0b10000000;
+                        clone[j] += 0b10000000;
                     overflow = (oriByte % 2) == 1;
                 }
             }
-            return leftOperand;
+            return clone;
         }
     }
 }

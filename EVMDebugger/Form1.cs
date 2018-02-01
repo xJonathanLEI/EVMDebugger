@@ -22,12 +22,25 @@ namespace EVMDebugger
 
         private async void button1_Click(object sender, EventArgs e)
         {
+            for (int i = 0; i < 1000; i ++)
+            {
+                for (int j = 0; j < 1000; j++)
+                {
+                    uint256 a = i;
+                    uint256 b = j;
+                    uint256 c = a * b;
+                    if (i * j != (int)c.ToUInt32())
+                        MessageBox.Show("Error");
+                }
+            }
+
+
             EVM.DataQuery.EtherscanDataGateway edg = new EVM.DataQuery.EtherscanDataGateway();
             byte[] bytecode = await edg.getCodeAt("0x5d1B26d762b1973B8B7C2bFb196Ba2ED969dAF18");
 
             // PUSH1 0x05, PUSH1 0x04, RETURN
             EVMInterpreter evm = new EVMInterpreter(bytecode);
-            evm.transaction.data = Utility.parseHexString("0x6ffcc719000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000ed6fa3c7");
+            evm.transaction = await edg.getTransactionByHash("0x5f28e503de125f72130269c9f6ef8d456594ef533ff21ce196c89cd0fa0aaca3");
 
             ShowEVMStatus(evm);
 
